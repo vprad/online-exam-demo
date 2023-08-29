@@ -34,7 +34,7 @@ pipeline {
                     sh 'docker tag ${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}'
                     sh 'docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}'
                     sh 'docker logout'
-                    }
+
                 }
             }
         }
