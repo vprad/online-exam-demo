@@ -7,7 +7,7 @@ pipeline {
         DOCKER_IMAGE_NAME = "onlineexam"
         DOCKER_USERNAME = credentials('docker-hub-username')
         DOCKER_PASSWORD = credentials('docker-hub-password')
-        DOCKER_TAG = "mytag"
+        DOCKER_TAG = "latest"
     }
 
     stages {
