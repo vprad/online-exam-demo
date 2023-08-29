@@ -7,6 +7,7 @@ pipeline {
         DOCKER_IMAGE_NAME = "onlineexam"
         DOCKER_USERNAME = credentials('docker-hub-username')
         DOCKER_PASSWORD = credentials('docker-hub-password')
+        DOCKER_TAG = "mytag"
     }
 
     stages {
@@ -31,8 +32,8 @@ pipeline {
                         customImage.push()*/
                     sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
                     sh 'docker build -t ${DOCKER_IMAGE_NAME} .'
-                    sh 'docker tag ${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}'
-                    sh 'docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}'
+                    sh 'docker tag ${DOCKER_IMAGE_NAME}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${DOCKER_TAG}'
+                    sh 'docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${DOCKER_TAG}'
                     sh 'docker logout'
 
                 }
