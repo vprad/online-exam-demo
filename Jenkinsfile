@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKER_REGISTRY = "docker.io"
+        DOCKER_REPOSITORY = "bootcamp"
         DOCKER_IMAGE_NAME = "onlineexam"
         DOCKER_USERNAME = credentials('docker-hub-username')
         DOCKER_PASSWORD = credentials('docker-hub-password')
@@ -34,7 +35,8 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('', DOCKER_USERNAME, DOCKER_PASSWORD) {
-                        def dockerImage = docker.image("${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}")
+                        sh 'docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} '
+                        def dockerImage = docker.image("${DOCKER_USERNAME}/${DOCKER_REPOSITORY}:${env.BUILD_NUMBER}")
                         dockerImage.push()
                     }
                 }
