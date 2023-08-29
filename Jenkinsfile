@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/vprad/online-exam-demo.git']])
+                checkout scm
             }
         }
 
@@ -23,36 +23,16 @@ pipeline {
             }
         }
 
-        /*stage('Build Docker Image') {
+        stage('Dockerize') {
             steps {
                 script {
-                    def dockerImage = docker.build("${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}")
+                    docker.withRegistry("${DOCKER_REGISTRY}", "${DOCKER_USERNAME}", "${DOCKER_PASSWORD}") {
+                        def customImage = docker.build("${DOCKER_USERNAME}/${DOCKER_REPOSITORY}:${env.BUILD_NUMBER}", ".")
+                        customImage.push()
+                    }
                 }
             }
         }
-
-        stage('Push to Docker Hub') {
-            steps {
-                script {
-                    docker.withRegistry('', DOCKER_USERNAME, DOCKER_PASSWORD) {
-                        sh 'docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}'
-                        def dockerImage = docker.image("${DOCKER_USERNAME}/${DOCKER_REPOSITORY}:${env.BUILD_NUMBER}")
-                        dockerImage.push()
-                    }
-                }
-            }
-        }*/
-        stage('Dockerize') {
-                    steps {
-                        script {
-                            docker.withRegistry('DOCKER_REGISTRY', DOCKER_USERNAME, DOCKER_PASSWORD) {
-                                sh "docker login --username=${DOCKER_USERNAME} --${DOCKER_PASSWORD}"
-                                def customImage = docker.build("${DOCKER_USERNAME}/${DOCKER_REPOSITORY}", ".")
-                                customImage.push()
-                            }
-                        }
-                    }
-                }
     }
 
     post {
