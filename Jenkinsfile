@@ -32,7 +32,7 @@ pipeline {
                         customImage.push()*/
                     sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
                     sh 'docker build -t ${DOCKER_IMAGE_NAME} .'
-                    sh 'docker tag ${DOCKER_IMAGE_NAME}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${DOCKER_TAG}'
+                    sh 'docker tag ${DOCKER_IMAGE_NAME}:${DOCKER_TAG} pradeepvenk99/{DOCKER_REPOSITORY}:${DOCKER_TAG}'
                     sh 'docker push pradeepvenk99/${DOCKER_REPOSITORY}:${DOCKER_TAG}'
                     sh 'docker logout'
 
