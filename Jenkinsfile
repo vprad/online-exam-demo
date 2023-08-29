@@ -35,7 +35,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('', DOCKER_USERNAME, DOCKER_PASSWORD) {
-                        sh 'docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} '
+                        //sh 'docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}'
                         def dockerImage = docker.image("${DOCKER_USERNAME}/${DOCKER_REPOSITORY}:${env.BUILD_NUMBER}")
                         dockerImage.push()
                     }
