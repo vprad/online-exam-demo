@@ -23,7 +23,7 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        /*stage('Build Docker Image') {
             steps {
                 script {
                     def dockerImage = docker.build("${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}")
@@ -35,13 +35,24 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('', DOCKER_USERNAME, DOCKER_PASSWORD) {
-                        //sh 'docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}'
+                        sh 'docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}'
                         def dockerImage = docker.image("${DOCKER_USERNAME}/${DOCKER_REPOSITORY}:${env.BUILD_NUMBER}")
                         dockerImage.push()
                     }
                 }
             }
-        }
+        }*/
+        stage('Dockerize') {
+                    steps {
+                        script {
+                            docker.withRegistry('DOCKER_REGISTRY', DOCKER_USERNAME, DOCKER_PASSWORD) {
+                                sh "docker login --username=${DOCKER_USERNAME} --${DOCKER_PASSWORD}"
+                                def customImage = docker.build("${DOCKER_USERNAME}/${DOCKER_REPOSITORY}", ".")
+                                customImage.push()
+                            }
+                        }
+                    }
+                }
     }
 
     post {
