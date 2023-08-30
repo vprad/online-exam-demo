@@ -14,9 +14,9 @@ spec:
     spec:
       containers:
         - name: online-app  
-          image: 494043708686.dkr.ecr.us-east-1.amazonaws.com/online-exam:latest
+          image: pradeepvenk99/bootcamp:latest
           ports:
-            - containerPort: 5432
+            - containerPort: 8080
           env:
             - name: DB_HOST
               value: online-exam.cswc818y3x3o.us-east-1.rds.amazonaws.com
