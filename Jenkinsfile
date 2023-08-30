@@ -8,6 +8,8 @@ pipeline {
         DOCKER_USERNAME = credentials('docker-hub-username')
         DOCKER_PASSWORD = credentials('docker-hub-password')
         DOCKER_TAG = "latest"
+        AWS_DEFAULT_REGION = 'us-east-1'
+        EKS_CLUSTER_NAME = 'myapp-eks-cluster'
     }
 
     stages {
@@ -36,6 +38,48 @@ pipeline {
                     sh 'docker push pradeepvenk99/bootcamp:latest'
                     sh 'docker logout'
 
+                }
+            }
+        }
+        stage('Terraform Init') {
+            steps {
+                script {
+                    sh 'terraform init'
+                }
+            }
+        }
+
+        stage('Terraform Plan') {
+            steps {
+                script {
+                    sh 'terraform plan'
+                }
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                input 'Proceed with Terraform Apply?'
+                script {
+                    sh 'terraform apply -auto-approve'
+                }
+            }
+        }
+
+        stage('Deploy to EKS') {
+            steps {
+                script {
+                    sh "aws eks update-kubeconfig --region ${AWS_DEFAULT_REGION} --name ${EKS_CLUSTER_NAME}"
+                    sh "kubectl apply -f deployment.yaml"
+                }
+            }
+        }
+
+        stage('Terraform Destroy') {
+            steps {
+                input 'Proceed with Terraform Destroy?'
+                script {
+                    sh 'terraform destroy -auto-approve'
                 }
             }
         }
