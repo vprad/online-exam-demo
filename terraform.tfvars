@@ -1,0 +1,5 @@
+vpc_cidr_block      = "172.0.0.0/16"
+subnet_cidr_block   = "172.0.0.0/20"
+avail_zone          = "us-east-1a"
+env_prefix          = "online-vpc"
+instance_type       = "t2.medium"
