@@ -13,7 +13,7 @@ pipeline {
         AWS_ACCESS_KEY_ID = credentials('your-access-key')
         AWS_SECRET_ACCESS_KEY = credentials('your-secret-key')
         //HOME/bin/kubectl
-        PATH = tool name: 'kubectl', type: 'KubernetesCLI'
+        //PATH = tool name: 'kubectl', type: 'KubernetesCLI'
     }
 
     stages {
