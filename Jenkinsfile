@@ -10,6 +10,8 @@ pipeline {
         DOCKER_TAG = "latest"
         AWS_DEFAULT_REGION = 'us-east-1'
         EKS_CLUSTER_NAME = 'myapp-eks-cluster'
+        AWS_ACCESS_KEY_ID = credentials('your-access-key')
+        AWS_SECRET_ACCESS_KEY = credentials('your-secret-key')
     }
 
     stages {
@@ -44,6 +46,8 @@ pipeline {
         stage('Terraform Init') {
             steps {
                 script {
+                    sh 'export AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID"'
+                    sh 'export AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY"'
                     sh 'terraform init'
                 }
             }
@@ -52,8 +56,6 @@ pipeline {
         stage('Terraform Plan') {
             steps {
                 script {
-                    sh 'export AWS_ACCESS_KEY_ID=your-access-key'
-                    sh 'export AWS_SECRET_ACCESS_KEY=your-secret-key'
                     sh 'terraform plan'
                 }
             }
