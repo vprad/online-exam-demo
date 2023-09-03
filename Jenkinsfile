@@ -72,14 +72,14 @@ pipeline {
             }
         }
 
-        /*stage('Deploy to EKS') {
+        stage('Deploy to EKS') {
             steps {
                 script {
                     sh "aws eks update-kubeconfig --region ${AWS_DEFAULT_REGION} --name ${EKS_CLUSTER_NAME}"
                     sh "kubectl apply -f deployment.yaml"
                 }
             }
-        }*/
+        }
 
         stage('Terraform Destroy') {
             steps {
