@@ -12,7 +12,7 @@ pipeline {
         EKS_CLUSTER_NAME = 'myapp-eks-cluster'
         AWS_ACCESS_KEY_ID = credentials('your-access-key')
         AWS_SECRET_ACCESS_KEY = credentials('your-secret-key')
-        //
+        
     }
 
     stages {
