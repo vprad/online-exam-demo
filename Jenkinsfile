@@ -12,8 +12,6 @@ pipeline {
         EKS_CLUSTER_NAME = 'myapp-eks-cluster'
         AWS_ACCESS_KEY_ID = credentials('your-access-key')
         AWS_SECRET_ACCESS_KEY = credentials('your-secret-key')
-        //HOME/bin/kubectl
-        //PATH = tool name: 'kubectl', type: 'KubernetesCLI'
     }
 
     stages {
@@ -33,9 +31,6 @@ pipeline {
         stage('Dockerize') {
             steps {
                 script {
-                    /*docker.withRegistry("${DOCKER_REGISTRY}", "${DOCKER_USERNAME}", "${DOCKER_PASSWORD}") {
-                        def customImage = docker.build("${DOCKER_USERNAME}/${DOCKER_REPOSITORY}:${env.BUILD_NUMBER}", ".")
-                        customImage.push()*/
                     sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
                     sh 'docker build -t ${DOCKER_IMAGE_NAME} .'
                     sh 'docker tag onlineexam:latest pradeepvenk99/bootcamp:latest'
