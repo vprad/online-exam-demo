@@ -18,7 +18,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                checkout scm
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/vprad/online-exam-demo.git']])
             }
         }
 
